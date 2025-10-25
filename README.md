@@ -42,24 +42,27 @@ Este trabalho prático envolve a implementação de um modelo de Simulação de 
 
 A organização a seguir visa separar o código-fonte principal, os dados de entrada/saída e a documentação do projeto, facilitando a execução e a manutenção do modelo de Simulação de Monte Carlo.
 
-├── .gitignore 
-├── README.md 
-├── LICENSE 
-├── Relatorio_Viabilidade_Projetos.pdf 
-├── src/ 
-│ ├── main.py 
-│ ├── model.py 
-│ ├── generators.py 
-│ ├── analysis.py 
-│ └── utils.py 
-└── data/
-  ├── parametros_cenario1.csv 
-  ├── parametros_cenario2.csv 
-  ├── parametros_cenario3.csv 
-  ├── resultados_cenario1.csv (Gerado) 
-  └── resultados_... 
-└── docs/ 
-  └── pratico-simulacao-monte-carlo.pdf
+```text
+.
+├── .gitignore
+├── README.md
+├── LICENSE
+├── Relatorio_Viabilidade_Projetos.pdf
+├── src/
+│   ├── main.py
+│   ├── model.py
+│   ├── generators.py
+│   ├── analysis.py
+│   └── utils.py
+├── data/
+│   ├── parametros_cenario1.csv
+│   ├── parametros_cenario2.csv
+│   ├── parametros_cenario3.csv
+│   ├── resultados_cenario1.csv (Gerado)
+│   └── resultados_...
+└── docs/
+    └── pratico-simulacao-monte-carlo.pdf
+```
 
 ### Descrição dos Componentes
 
