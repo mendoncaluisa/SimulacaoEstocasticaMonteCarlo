@@ -22,7 +22,7 @@ import random
 import matplotlib.pyplot as plt
 
 ## Gerador de Números Aleatórios Segundo Distribuição de Bernoulli
-def bernoulli_generator(p):
+def bernoulli(p):
     # p é a taxa de sucesso
     random_number = random.random() # gerando um número aleatório entre 0 e 1
     if random_number < p:
@@ -33,11 +33,10 @@ def bernoulli_generator(p):
 
 #region Distribuição PERT
 import math
-from pert import PERT
+#from pert import PERT
 
-# ==================================================
-# Gerador Dist. Gamma
-def randGamma(a, b, c):
+#region Distribuição Gamma
+def gamma(a, b, c):
     # So traduzi do documento pra python
 
     assert b > 0 and c > 0
@@ -77,22 +76,24 @@ def randGamma(a, b, c):
             w = B + Q * v - y
             if w + D - T * z >= 0. or w >= math.log(z):
                 return a + b * y
+#endregion
 
-# ==================================================
+#region Distribuição Beta
 # Gerador Dist. Beta
-def randBeta(alpha, beta):
+def beta(alpha, beta):
     # Gera um X e Y seguindo dist Gamma
-    x = randGamma(0, 1, alpha )
-    y = randGamma(0, 1, beta  )
+    x = gamma(0, 1, alpha )
+    y = gamma(0, 1, beta  )
     # Calcula a variavel Beta
     varBeta = x / (x + y)
 
     # Retorna a variavel Beta
     return varBeta
 
-# ==================================================
-# Gerador Dist. PERT
-def randPERT(min, moda, max, *, lamb=4):
+#endregion
+
+#region Deistribuição PERT
+def pert(min, moda, max, *, lamb=4):
     # - lambda controla quao concentrado a dist vai ser em torno da moda
 
     # calcula o range
@@ -105,13 +106,13 @@ def randPERT(min, moda, max, *, lamb=4):
     beta = 1 + lamb * (max - moda) / r
 
     # pega a variavel beta e ajusta ela pra escalar com o intervalo correto
-    varBeta = randBeta(alpha, beta)
+    varBeta = beta(alpha, beta)
     varPERT = min + (varBeta * r)
 
     # Retorna a variavel PERT
     return varPERT
 
-# ==================================================
+#endregion
 # Formula pra gerar randPERT baseado em:
 # https://stackoverflow.com/questions/68476485/random-values-from-a-pert-distribution-in-python
 
@@ -120,11 +121,11 @@ def randPERT(min, moda, max, *, lamb=4):
 #region Plots
 #gerando 10 mil números aleatórios (o metodo da normal gera um número por vez  usando o metodo de box muller)
 plot_normal = [normal(0,1) for _ in range(100000)] #amostras é uma lista
-plot_bernoulli = [bernoulli_generator(0.4) for _ in range(1000000)]
+plot_bernoulli = [bernoulli(0.4) for _ in range(1000000)]
 
-pert_dist = PERT(0, 5, 10)
-plot_pert_lib = pert_dist.rvs(1000000)
-plot_pert_nosso = [randPERT(0, 5, 10) for _ in range(1000000)]
+#pert_dist = PERT(0, 5, 10)
+#plot_pert_lib = pert_dist.rvs(1000000)
+plot_pert_nosso = [pert(0, 5, 10) for _ in range(1000000)]
 
 #plotando o histograma normal
 plt.figure(figsize=(8, 5))
