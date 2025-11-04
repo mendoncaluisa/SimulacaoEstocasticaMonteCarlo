@@ -35,6 +35,21 @@ def bernoulli(p):
 import math
 #from pert import PERT
 
+#region Distribuição LogNormal
+import math
+
+def lognormal(mu_ln: float, sigma_ln: float) -> float:
+    # gerar um número normal a partir de μ e σ do log
+    z = normal(mu_ln, sigma_ln)
+    
+    # converter para lognormal
+    return math.exp(z)
+
+#endregion
+
+# ==================================================
+# Gerador Dist. Gamma
+def randGamma(a, b, c):
 #region Distribuição Gamma
 def gamma(a, b, c):
     # So traduzi do documento pra python
@@ -127,6 +142,8 @@ plot_bernoulli = [bernoulli(0.4) for _ in range(1000000)]
 #plot_pert_lib = pert_dist.rvs(1000000)
 plot_pert_nosso = [pert(0, 5, 10) for _ in range(1000000)]
 
+plot_lognormal = [lognormal(0, 0.25) for _ in range(200000)]  # μ=0, σ=0.25
+
 #plotando o histograma normal
 plt.figure(figsize=(8, 5))
 plt.hist(plot_normal, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
@@ -153,6 +170,15 @@ plt.subplot(1,2,2)
 plt.hist(plot_pert_lib, bins=50, density=True, color='skyblue', edgecolor='black', alpha=0.7)
 plt.title('PERT - Usando a biblioteca')
 plt.tight_layout()
+plt.show()
+
+# Distribuição LogNormal
+plt.figure(figsize=(8, 5))
+plt.hist(plot_lognormal, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
+plt.title('Distribuição LogNormal gerada a partir da Normal')
+plt.xlabel('Valores')
+plt.ylabel('Densidade de probabilidade')
+plt.grid(True, alpha=0.3)
 plt.show()
 
 #endregion
