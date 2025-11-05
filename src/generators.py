@@ -48,8 +48,7 @@ def lognormal(mu_ln: float, sigma_ln: float) -> float:
 #endregion
 
 # ==================================================
-# Gerador Dist. Gamma
-def randGamma(a, b, c):
+
 #region Distribuição Gamma
 def gamma(a, b, c):
     # So traduzi do documento pra python
