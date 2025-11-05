@@ -31,21 +31,23 @@ def bernoulli(p):
         return 0
 #endregion
 
-#region Distribuição PERT
+# region Distribuição LogNormal
 import math
-#from pert import PERT
 
-#region Distribuição LogNormal
-import math
 
 def lognormal(mu_ln: float, sigma_ln: float) -> float:
     # gerar um número normal a partir de μ e σ do log
     z = normal(mu_ln, sigma_ln)
-    
+
     # converter para lognormal
     return math.exp(z)
 
-#endregion
+
+# endregion
+
+#region Distribuição PERT
+import math
+#from pert import PERT
 
 # ==================================================
 
