@@ -58,20 +58,20 @@ def fundacao(fase):
 
     
 #region Fase de Alvenaria
-def fase_de_alvenaria(dados_alvenaria):
+def fase_de_alvenaria(dados):
 
-    min, moda,max = dados_alvenaria['pert']
-    media_ln, desvio_ln, = dados_alvenaria['log_normal']
-    media, desvio, = dados_alvenaria['normal']
+    min, moda,max = dados['pert']
+    media_ln, desvio_ln, = dados['log_normal']
+    media, desvio, = dados['normal']
 
     duracao = pert(min,moda,max)
     custo_material = lognormal(media_ln, desvio_ln)
     custo_mao_obra = normal(media, desvio)
-    necessidade_retrabalho = bernoulli(dados_alvenaria['p_retrabalho'])
+    necessidade_retrabalho = bernoulli(dados['p_retrabalho'])
 
     if necessidade_retrabalho:
-        tempo_total_alvenaria = duracao + dados_alvenaria['tempo_retrabalho']
-        custo_total_alvenaria = custo_material + custo_mao_obra + dados_alvenaria['custo_retrabalho']
+        tempo_total_alvenaria = duracao + dados['tempo_retrabalho']
+        custo_total_alvenaria = custo_material + custo_mao_obra + dados['custo_retrabalho']
     else:
         tempo_total_alvenaria = duracao
         custo_total_alvenaria = custo_mao_obra + custo_material
