@@ -1,4 +1,4 @@
-from src.generators import pert, normal
+from generators import pert, normal, log_normal, bernoulli
 
 
 def terreno_laje_acabamento_interno (pert_min, per_moda, pert_max, log_normal_media, log_normal_desvio, normal_media, normal_desvio):
