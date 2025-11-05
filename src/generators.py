@@ -1,9 +1,10 @@
-#region Distribuição Normal
 from scipy.stats import uniform
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
+#region Distribuição Normal
 def normal(media: float, desvio_padrao: float) -> float:
     if (desvio_padrao > 0):
         while True:
@@ -17,10 +18,8 @@ def normal(media: float, desvio_padrao: float) -> float:
         return media + desvio_padrao * p1 * np.sqrt(-2. * np.log(p) / p)
 #endregion
 
-#region Distribuição Bernoulli
-import random
-import matplotlib.pyplot as plt
 
+#region Distribuição Bernoulli
 ## Gerador de Números Aleatórios Segundo Distribuição de Bernoulli
 def bernoulli(p):
     # p é a taxa de sucesso
@@ -31,25 +30,16 @@ def bernoulli(p):
         return 0
 #endregion
 
+
 # region Distribuição LogNormal
-import math
-
-
 def lognormal(mu_ln: float, sigma_ln: float) -> float:
     # gerar um número normal a partir de μ e σ do log
     z = normal(mu_ln, sigma_ln)
 
     # converter para lognormal
     return math.exp(z)
-
-
 # endregion
 
-#region Distribuição PERT
-import math
-#from pert import PERT
-
-# ==================================================
 
 #region Distribuição Gamma
 def gamma(a, b, c):
@@ -94,6 +84,7 @@ def gamma(a, b, c):
                 return a + b * y
 #endregion
 
+
 #region Distribuição Beta
 # Gerador Dist. Beta
 def beta(alpha, beta):
@@ -107,6 +98,7 @@ def beta(alpha, beta):
     return varBeta
 
 #endregion
+
 
 #region Deistribuição PERT
 def pert(min, moda, max, *, lamb=4):
@@ -125,12 +117,10 @@ def pert(min, moda, max, *, lamb=4):
 
     # Retorna a variavel PERT
     return varPERT
-
-#endregion
 # Formula pra gerar randPERT baseado em:
 # https://stackoverflow.com/questions/68476485/random-values-from-a-pert-distribution-in-python
-
 #endregion
+
 
 #region Plots
 #gerando 10 mil números aleatórios (o metodo da normal gera um número por vez  usando o metodo de box muller)
@@ -174,5 +164,4 @@ plt.xlabel('Valores')
 plt.ylabel('Densidade de probabilidade')
 plt.grid(True, alpha=0.3)
 plt.show()
-
 #endregion
