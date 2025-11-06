@@ -1,4 +1,4 @@
-from src.model import terreno_laje_acabamento_interno, fundacao, alvenaria
+from src.model import terreno_laje_acabamento_interno, fundacao, alvenaria, acabamento_externo
 
 cenarios = {
     'cenario_1': {
@@ -245,90 +245,110 @@ cenarios = {
 
 #region Cenário 1
 def cenario_1():
-    #fase 1
+    #fase 1 - Preparação do Terreno
     min, moda, max = cenarios['cenario_1']['fase_1']['pert']
     media_ln, desvio_ln = cenarios['cenario_1']['fase_1']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_1']['fase_1']['normal']
     duracao_terreno, custo_terreno = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal, desvio_normal)
 
-    #fase 2
+    #fase 2 - Fundação
     tempo_fundacao, custo_fundacao = fundacao(cenarios['cenario_1']['fase_2'])
 
-    #fase 3
+    #fase 3 - Laje
     min, moda, max = cenarios['cenario_1']['fase_3']['pert']
     media_ln, desvio_ln = cenarios['cenario_1']['fase_3']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_1']['fase_3']['normal']
     duracao_laje, custo_laje = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal, desvio_normal)
 
-    #fase 4
+    #fase 4 - Alvenaria
     tempo_alvenaria, custo_alvenaria = alvenaria(cenarios['cenario_1']['fase_4'])
 
-    #fase 5
+    #fase 5 - Acabamento Interno
     min, moda, max = cenarios['cenario_1']['fase_5']['pert']
     media_ln, desvio_ln = cenarios['cenario_1']['fase_5']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_1']['fase_5']['normal']
     duracao_acabamento_interno, custo_acabamento_interno = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal, desvio_normal)
 
-    #fase 6
-
+    #fase 6 - Acabamento Externo
+    tempo_acabamento_externo, custo_acabamento_externo = acabamento_externo(cenarios['cenario_1']['fase_6'])
+    
+    # Calcula o tempo e custo total do projeto
+    tempo_total = duracao_terreno + tempo_fundacao + duracao_laje + tempo_alvenaria + duracao_acabamento_interno + tempo_acabamento_externo
+    custo_total = custo_terreno + custo_fundacao + custo_laje + custo_alvenaria + custo_acabamento_interno + custo_acabamento_externo
+    
+    return tempo_total, custo_total
 #endregion
 
 
 #region Cenário 2
 def cenario_2():
-    # fase 1
+    # fase 1 - Preparação do Terreno
     min, moda, max = cenarios['cenario_2']['fase_1']['pert']
     media_ln, desvio_ln = cenarios['cenario_2']['fase_1']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_2']['fase_1']['normal']
     duracao_terreno, custo_terreno = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal,desvio_normal)
 
-    # fase 2
+    # fase 2 - Fundação
     tempo_fundacao, custo_fundacao = fundacao(cenarios['cenario_2']['fase_2'])
 
-    # fase 3
+    # fase 3 - Laje
     min, moda, max = cenarios['cenario_2']['fase_3']['pert']
     media_ln, desvio_ln = cenarios['cenario_2']['fase_3']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_2']['fase_3']['normal']
     duracao_laje, custo_laje = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal,desvio_normal)
 
-    # fase 4
+    # fase 4 - Alvenaria
     tempo_alvenaria, custo_alvenaria = alvenaria(cenarios['cenario_2']['fase_4'])
 
-    # fase 5
+    # fase 5 - Acabamento Interno
     min, moda, max = cenarios['cenario_2']['fase_5']['pert']
     media_ln, desvio_ln = cenarios['cenario_2']['fase_5']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_2']['fase_5']['normal']
     duracao_acabamento_interno, custo_acabamento_interno = terreno_laje_acabamento_interno(min, moda, max, media_ln,desvio_ln, media_normal,desvio_normal)
 
-    # fase 6
+    # fase 6 - Acabamento Externo
+    tempo_acabamento_externo, custo_acabamento_externo = acabamento_externo(cenarios['cenario_2']['fase_6'])
+    
+    # Calcula o tempo e custo total do projeto
+    tempo_total = duracao_terreno + tempo_fundacao + duracao_laje + tempo_alvenaria + duracao_acabamento_interno + tempo_acabamento_externo
+    custo_total = custo_terreno + custo_fundacao + custo_laje + custo_alvenaria + custo_acabamento_interno + custo_acabamento_externo
+    
+    return tempo_total, custo_total
 #endregion
 
 
 #region Cenário 3
 def cenario_3():
-    # fase 1
+    # fase 1 - Preparação do Terreno
     min, moda, max = cenarios['cenario_3']['fase_1']['pert']
     media_ln, desvio_ln = cenarios['cenario_3']['fase_1']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_3']['fase_1']['normal']
     duracao_terreno, custo_terreno = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal,desvio_normal)
 
-    # fase 2
+    # fase 2 - Fundação
     tempo_fundacao, custo_fundacao = fundacao(cenarios['cenario_3']['fase_2'])
 
-    # fase 3
+    # fase 3 - Laje
     min, moda, max = cenarios['cenario_3']['fase_3']['pert']
     media_ln, desvio_ln = cenarios['cenario_3']['fase_3']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_3']['fase_3']['normal']
     duracao_laje, custo_laje = terreno_laje_acabamento_interno(min, moda, max, media_ln, desvio_ln, media_normal,desvio_normal)
 
-    # fase 4
+    # fase 4 - Alvenaria
     tempo_alvenaria, custo_alvenaria = alvenaria(cenarios['cenario_3']['fase_4'])
 
-    # fase 5
+    # fase 5 - Acabamento Interno
     min, moda, max = cenarios['cenario_3']['fase_5']['pert']
     media_ln, desvio_ln = cenarios['cenario_3']['fase_5']['log_normal']
     media_normal, desvio_normal = cenarios['cenario_3']['fase_5']['normal']
     duracao_acabamento_interno, custo_acabamento_interno = terreno_laje_acabamento_interno(min, moda, max, media_ln,desvio_ln, media_normal,desvio_normal)
 
-    # fase 6
+    # fase 6 - Acabamento Externo
+    tempo_acabamento_externo, custo_acabamento_externo = acabamento_externo(cenarios['cenario_3']['fase_6'])
+    
+    # Calcula o tempo e custo total do projeto
+    tempo_total = duracao_terreno + tempo_fundacao + duracao_laje + tempo_alvenaria + duracao_acabamento_interno + tempo_acabamento_externo
+    custo_total = custo_terreno + custo_fundacao + custo_laje + custo_alvenaria + custo_acabamento_interno + custo_acabamento_externo
+    
+    return tempo_total, custo_total
 #endregion
