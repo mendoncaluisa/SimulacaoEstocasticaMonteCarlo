@@ -3,7 +3,7 @@ from generators import pert, normal, lognormal, bernoulli
 
 def terreno_laje_acabamento_interno (pert_min, pert_moda, pert_max, log_normal_media, log_normal_desvio, normal_media, normal_desvio):
     duracao = pert(pert_min, pert_moda, pert_max)
-    custo_material = lognormal()
+    custo_material = lognormal(log_normal_media,log_normal_desvio)
     custo_mao_obra = normal(normal_media, normal_desvio)
 
     duracao_total = duracao
@@ -58,9 +58,9 @@ def fundacao(fase):
 
     
 #region Fase de Alvenaria
-def fase_de_alvenaria(dados):
+def alvenaria(dados):
 
-    min, moda,max = dados['pert']
+    min, moda, max = dados['pert']
     media_ln, desvio_ln, = dados['log_normal']
     media, desvio, = dados['normal']
 
