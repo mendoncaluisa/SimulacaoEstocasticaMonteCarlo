@@ -32,11 +32,30 @@ def bernoulli(p):
 
 
 # region Distribuição LogNormal
-def lognormal(mu_ln: float, sigma_ln: float) -> float:
-    # gerar um número normal a partir de μ e σ do log
-    z = normal(mu_ln, sigma_ln)
+def lognormal(media_desejada: float, desvio_desejado: float) -> float:
 
-    # converter para lognormal
+    if media_desejada <= 0 or desvio_desejado <= 0:
+        raise ValueError("Média e desvio devem ser positivos para LogNormal")
+    
+    # Calcula o coeficiente de variação
+    cv = desvio_desejado / media_desejada
+    
+    # Converte para os parâmetros do log
+    # σ_ln = sqrt(ln(1 + cv²))
+    # μ_ln = ln(media) - σ_ln²/2
+    
+    sigma_ln = math.sqrt(math.log(1 + cv * cv))
+    mu_ln = math.log(media_desejada) - (sigma_ln * sigma_ln) / 2.0
+    
+    # Gera um número normal com os parâmetros convertidos
+    z = normal(mu_ln, sigma_ln)
+    
+    # Converte para lognormal
+    if z > 700:  # exp(700) já é muito grande
+        z = 700
+    elif z < -700:
+        z = -700
+        
     return math.exp(z)
 # endregion
 
@@ -89,8 +108,8 @@ def gamma(a, b, c):
 # Gerador Dist. Beta
 def beta(alpha, beta):
     # Gera um X e Y seguindo dist Gamma
-    x = gamma(0, 1, alpha )
-    y = gamma(0, 1, beta  )
+    x = gamma(0, 1, alpha)
+    y = gamma(0, 1, beta)
     # Calcula a variavel Beta
     varBeta = x / (x + y)
 
@@ -123,45 +142,45 @@ def pert(min, moda, max, *, lamb=4):
 
 
 #region Plots
-#gerando 10 mil números aleatórios (o metodo da normal gera um número por vez  usando o metodo de box muller)
-plot_normal = [normal(0,1) for _ in range(100000)] #amostras é uma lista
-plot_bernoulli = [bernoulli(0.4) for _ in range(1000000)]
-plot_pert = [pert(0, 5, 10) for _ in range(1000000)]
+if __name__ == "__main__":
+    #gerando 10 mil números aleatórios (o metodo da normal gera um número por vez  usando o metodo de box muller)
+    plot_normal = [normal(0,1) for _ in range(100000)] #amostras é uma lista
+    plot_bernoulli = [bernoulli(0.4) for _ in range(1000000)]
+    plot_pert = [pert(0, 5, 10) for _ in range(1000000)]
+    plot_lognormal = [lognormal(1000000, 200000) for _ in range(200000)]  # Teste com valores realistas
 
-plot_lognormal = [lognormal(0, 0.25) for _ in range(200000)]  # μ=0, σ=0.25
+    #plotando o histograma normal
+    plt.figure(figsize=(8, 5))
+    plt.hist(plot_normal, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
+    plt.title('Distribuição Normal gerada pelo método de Box-Muller')
+    plt.xlabel('Valores')
+    plt.ylabel('Densidade de probabilidade')
+    plt.grid(True, alpha=0.3)
+    plt.show()
 
-#plotando o histograma normal
-plt.figure(figsize=(8, 5))
-plt.hist(plot_normal, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title('Distribuição Normal gerada pelo método de Box-Muller')
-plt.xlabel('Valores')
-plt.ylabel('Densidade de probabilidade')
-plt.grid(True, alpha=0.3)
-plt.show()
+    #plotando o histograma bernoulli
+    plt.hist(plot_bernoulli, bins=2, density=True, color='skyblue', edgecolor='black', alpha=0.7)
+    plt.title('Distribuição Bernoulli')
+    plt.xlabel('Valores')
+    plt.ylabel('Densidade de probabilidade')
+    plt.grid(True, alpha=0.3)
+    plt.show()
 
-#plotando o histograma bernoulli
-plt.hist(plot_bernoulli, bins=2, density=True, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title('Distribuição Bernoulli')
-plt.xlabel('Valores')
-plt.ylabel('Densidade de probabilidade')
-plt.grid(True, alpha=0.3)
-plt.show()
+    #plotando o histograma pert
+    plt.figure(figsize=(8, 5))
+    plt.hist(plot_pert, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
+    plt.title('Distribuição PERT')
+    plt.xlabel('Valores')
+    plt.ylabel('Densidade de probabilidade')
+    plt.grid(True, alpha=0.3)
+    plt.show()
 
-#plotando o histograma pert
-plt.figure(figsize=(8, 5))
-plt.hist(plot_pert, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title('Distribuição PERT')
-plt.xlabel('Valores')
-plt.ylabel('Densidade de probabilidade')
-plt.grid(True, alpha=0.3)
-plt.show()
-
-# Distribuição LogNormal
-plt.figure(figsize=(8, 5))
-plt.hist(plot_lognormal, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
-plt.title('Distribuição LogNormal gerada a partir da Normal')
-plt.xlabel('Valores')
-plt.ylabel('Densidade de probabilidade')
-plt.grid(True, alpha=0.3)
-plt.show()
+    #plotando o histograma LogNormal
+    plt.figure(figsize=(8, 5))
+    plt.hist(plot_lognormal, bins=80, density=True, color='skyblue', edgecolor='black', alpha=0.7)
+    plt.title('Distribuição LogNormal gerada a partir da Normal')
+    plt.xlabel('Valores')
+    plt.ylabel('Densidade de probabilidade')
+    plt.grid(True, alpha=0.3)
+    plt.show()
 #endregion

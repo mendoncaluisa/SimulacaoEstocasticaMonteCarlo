@@ -1,6 +1,5 @@
 from generators import pert, normal, lognormal, bernoulli
 
-
 def terreno_laje_acabamento_interno (pert_min, pert_moda, pert_max, log_normal_media, log_normal_desvio, normal_media, normal_desvio):
     duracao = pert(pert_min, pert_moda, pert_max)
     custo_material = lognormal(log_normal_media,log_normal_desvio)
@@ -80,3 +79,58 @@ def alvenaria(dados):
 #endregion
 
 
+#region Fase de Acabamento Externo
+def acabamento_externo(fase):
+    # Decide qual empresa vai fzr o trabalho
+    empresa_A_escolhida = bernoulli(fase['p_empresa_A'])
+    
+    # Decide se o clima vai estar ruim
+    clima_ruim = bernoulli(fase['p_clima_ruim'])
+    
+    # Processo normal
+    if empresa_A_escolhida:
+        # seleciona o tempo baseado no clima
+        if clima_ruim:
+            tempo_acabamento = pert(
+                fase['empresa_A']['pert_clima_ruim'][0], 
+                fase['empresa_A']['pert_clima_ruim'][1], 
+                fase['empresa_A']['pert_clima_ruim'][2])
+        else:
+            tempo_acabamento = pert(
+                fase['empresa_A']['pert_clima_bom'][0], 
+                fase['empresa_A']['pert_clima_bom'][1], 
+                fase['empresa_A']['pert_clima_bom'][2])
+        
+        custo_material = lognormal(
+            fase['empresa_A']['log_normal'][0], 
+            fase['empresa_A']['log_normal'][1])
+        
+        custo_mao_obra = normal(
+            fase['empresa_A']['normal'][0], 
+            fase['empresa_A']['normal'][1])
+        
+    else:
+        # seleciona o tempo baseado no clima
+        if clima_ruim:
+            tempo_acabamento = pert(
+                fase['empresa_B']['pert_clima_ruim'][0], 
+                fase['empresa_B']['pert_clima_ruim'][1], 
+                fase['empresa_B']['pert_clima_ruim'][2])
+        else:
+            tempo_acabamento = pert(
+                fase['empresa_B']['pert_clima_bom'][0], 
+                fase['empresa_B']['pert_clima_bom'][1], 
+                fase['empresa_B']['pert_clima_bom'][2])
+        
+        custo_material = lognormal(
+            fase['empresa_B']['log_normal'][0], 
+            fase['empresa_B']['log_normal'][1])
+        
+        custo_mao_obra = normal(
+            fase['empresa_B']['normal'][0], 
+            fase['empresa_B']['normal'][1])
+
+    custo_acabamento = custo_mao_obra + custo_material
+
+    return tempo_acabamento, custo_acabamento
+#endregion
