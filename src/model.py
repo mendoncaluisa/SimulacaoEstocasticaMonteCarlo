@@ -84,24 +84,25 @@ def fase_de_alvenaria(dados):
 def pintura_externa(taxa_empresa_tercerizada, taxa_condicao_climatica,
                     empresa_a_log_normal, empresa_a_normal, empresa_a_pert_tempo_bom, empresa_a_pert_tempo_ruim,
                     empresa_b_log_normal, empresa_b_normal, empresa_b_pert_tempo_bom, empresa_b_pert_tempo_ruim):
+
     escolha_tercerizada = bernoulli(taxa_empresa_tercerizada)
     condicao_climatica = bernoulli(taxa_condicao_climatica)
 
     if escolha_tercerizada == 1:
-        custo_material = log_normal(empresa_a_log_normal)
-        mao_obra = normal(empresa_a_normal)
+        custo_material = lognormal(empresa_a_log_normal[0], empresa_a_log_normal[1])
+        mao_obra = normal(empresa_a_normal[0], empresa_a_normal[1])
         if condicao_climatica == 1:
-            duracao = pert(empresa_a_pert_tempo_ruim)
+            duracao = pert(empresa_a_pert_tempo_ruim[0], empresa_a_pert_tempo_ruim[1], empresa_a_pert_tempo_ruim[2])
         else:
-            duracao = pert(empresa_a_pert_tempo_bom)
+            duracao = pert(empresa_a_pert_tempo_bom[0], empresa_a_pert_tempo_bom[1], empresa_a_pert_tempo_bom[2])
 
     else:
-        custo_material = normal(empresa_b_log_normal)
-        mao_obra = normal(empresa_b_normal)
+        custo_material = normal(empresa_b_log_normal[0], empresa_b_log_normal[1])
+        mao_obra = normal(empresa_b_normal[0], empresa_b_normal[1])
         if condicao_climatica == 1:
-            duracao = pert(empresa_b_pert_tempo_ruim)
+            duracao = pert(empresa_b_pert_tempo_ruim[0], empresa_b_pert_tempo_ruim[1], empresa_b_pert_tempo_ruim[2])
         else:
-            duracao = pert(empresa_b_pert_tempo_bom)
+            duracao = pert(empresa_b_pert_tempo_bom[0], empresa_b_pert_tempo_bom[1], empresa_b_pert_tempo_bom[2])
 
     duracao_total = duracao
     custo_total = custo_material + mao_obra
