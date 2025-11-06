@@ -1,5 +1,4 @@
 cenarios = {
-    
     'cenario_1': {
 
         'fase_1': {
